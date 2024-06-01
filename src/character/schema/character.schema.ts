@@ -21,16 +21,16 @@ export class Character {
     level: number;
 
     @Prop()
-    attribute: number;
+    ability: string;
 
     @Prop()
     feat: string;
+
+    @Prop()
+    spell: string;
     
     @Prop()
     alignment: string;
-
-    @Prop()
-    ability: string;
 
     @Prop()
     skill: string;
