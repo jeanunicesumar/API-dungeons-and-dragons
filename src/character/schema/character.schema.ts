@@ -1,23 +1,26 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
 
 export type CharacterDocument = HydratedDocument<Character>;
 
-@Schema()
+@Schema({timestamps: true})
 export class Character {
-    @Prop()
+    @Prop({ type: SchemaTypes.ObjectId })
+    id: Types.ObjectId;
+    
+    @Prop({ required: true })
     name: string;
 
-    @Prop()
+    @Prop({required: true })
     race: string;
 
     @Prop()
-    subrace: string;
+    subrace?: string;
    
-    @Prop()
+    @Prop({ required: true })
     class: string;
     
-    @Prop()
+    @Prop({ required: true, min: 1, max: 20})
     level: number;
 
     @Prop()
@@ -32,11 +35,11 @@ export class Character {
     @Prop()
     alignment: string;
 
-    @Prop()
-    skill: string;
+    @Prop([ String ])
+    skill: string[];
 
-    @Prop()
-    equipment: string;
+    @Prop([ String ])
+    equipment: string[];
 }
 
 export const CharacterSchema = SchemaFactory.createForClass(Character);
