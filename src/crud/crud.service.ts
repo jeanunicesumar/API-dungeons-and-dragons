@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import ICrudService from './interfaces/crud.service';
 import { CrudRepository } from './crud.repository';
 import Adapter from 'src/common/adapter/adapter';
@@ -38,10 +38,9 @@ export class CrudService<T, CreateDTO, UpdateDTO> implements ICrudService<T, Cre
     const entity: T = await this.repository.findById(id)
 
     if (!entity) {
-      console.log('exception');
+      throw new NotFoundException(`Entity ${id} not found.`)
     }
 
     return entity;
-
   }
 }

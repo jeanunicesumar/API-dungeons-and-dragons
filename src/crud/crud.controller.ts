@@ -1,8 +1,8 @@
-import { Get, Post, Body, Patch, Param, Delete, Injectable } from '@nestjs/common';
+import { Get, Post, Body, Patch, Param, Delete, Injectable, Controller } from '@nestjs/common';
 import { CrudService } from './crud.service';
 import ICrudController from './interfaces/crud.controller';
 
-@Injectable()
+@Controller()
 export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<T, CreateDTO, UpdateDTO> {
   
   constructor(
