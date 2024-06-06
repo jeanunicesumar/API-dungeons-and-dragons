@@ -5,10 +5,11 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { CharacterModule } from './character/character.module';
 import { AuthModule } from './auth/auth.module';
+import { LogService } from './log/log.service';
 
 @Module({
   imports: [UserModule, CharacterModule, MongooseModule.forRoot('mongodb://0.0.0.0:27018/api-D&D'), AuthModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, LogService],
 })
 export class AppModule { }
