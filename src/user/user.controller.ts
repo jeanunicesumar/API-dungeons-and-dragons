@@ -3,28 +3,11 @@ import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
-@Controller('user')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
-
-  @Get()
-  @UseGuards(JwtAuthGuard)
-  findAll() {
-    return this.userService.findAll();
+@Controller('users')
+export class UserController extends CrudController<User, CreateUserDto, UpdateUserDto> {
+  
+  constructor(protected readonly service: UserService) {
+    super(service)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
-  }
 }
