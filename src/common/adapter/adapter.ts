@@ -1,8 +1,8 @@
 
 export default interface Adapter<Entity, CreateDTO, UpdateDTO> {
 
-    toEntity(dto: CreateDTO): Entity;
+    createToEntity(dto: CreateDTO): Entity;
 
-    toEntity(dto: UpdateDTO): Entity;
+    updateToEntity(dto: UpdateDTO): Entity;
 
 }
