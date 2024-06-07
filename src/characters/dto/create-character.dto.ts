@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateCharacterDto {
   @IsString()
@@ -10,16 +16,16 @@ export class CreateCharacterDto {
   race: string;
 
   @IsString()
-  @IsNotEmpty()
   subrace: string;
 
   @IsString()
   @IsNotEmpty()
   class: string;
 
-  @IsString()
+  @MinLength(0)
+  @MaxLength(20)
   @IsNotEmpty()
-  level: string;
+  level: number;
 
   @IsString()
   @IsNotEmpty()
@@ -37,11 +43,11 @@ export class CreateCharacterDto {
   @IsNotEmpty()
   alignment: string;
 
-  @IsString()
+  @IsArray()
   @IsNotEmpty()
-  skill: string;
+  skill: string[];
 
-  @IsString()
+  @IsArray()
   @IsNotEmpty()
-  equipment: string;
+  equipment: string[];
 }
