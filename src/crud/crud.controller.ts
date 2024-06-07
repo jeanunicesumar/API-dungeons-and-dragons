@@ -6,7 +6,7 @@ import ICrudController from './interfaces/crud.controller';
 export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<T, CreateDTO, UpdateDTO> {
   
   constructor(
-    private readonly service: CrudService<T, CreateDTO, UpdateDTO>
+    protected readonly service: CrudService<T, CreateDTO, UpdateDTO>
   ) {}
 
   @Post()
