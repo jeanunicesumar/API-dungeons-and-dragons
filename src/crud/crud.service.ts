@@ -7,8 +7,8 @@ import Adapter from 'src/common/adapter/adapter';
 export class CrudService<T, CreateDTO, UpdateDTO> implements ICrudService<T, CreateDTO, UpdateDTO> {
 
   constructor(
-    private readonly repository: CrudRepository<T>,
-    private readonly adapter: Adapter<T, CreateDTO, UpdateDTO>,
+    protected readonly repository: CrudRepository<T>,
+    protected readonly adapter: Adapter<T, CreateDTO, UpdateDTO>
   ) {}
 
   public async findAll(): Promise<T[]> {
@@ -20,12 +20,12 @@ export class CrudService<T, CreateDTO, UpdateDTO> implements ICrudService<T, Cre
   }
 
   public async create(body: CreateDTO): Promise<void> {
-    const entity: T = this.adapter.toEntity(body);
+    const entity: T = this.adapter.createToEntity(body);
     this.repository.create(entity);
   }
 
   public async update(id: string, body: UpdateDTO): Promise<void> {
-    const entity: T = this.adapter.toEntity(body);
+    const entity: T = this.adapter.updateToEntity(body);
     this.repository.update(id, entity);
   }
 
