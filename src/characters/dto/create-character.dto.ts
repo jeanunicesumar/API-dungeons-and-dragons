@@ -1,10 +1,4 @@
-import {
-  IsArray,
-  IsNotEmpty,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsArray, IsNotEmpty, IsString, Max } from 'class-validator';
 
 export class CreateCharacterDto {
   @IsString()
@@ -22,8 +16,7 @@ export class CreateCharacterDto {
   @IsNotEmpty()
   class: string;
 
-  @MinLength(0)
-  @MaxLength(20)
+  @Max(20)
   @IsNotEmpty()
   level: number;
 
