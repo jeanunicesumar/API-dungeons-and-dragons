@@ -4,13 +4,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './users/user.module';
 import { CharacterModule } from './characters/character.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [
-    UserModule,
-    CharacterModule,
-    MongooseModule.forRoot('mongodb://0.0.0.0:27018/api-D&D'),
-  ],
+  imports: [UserModule, CharacterModule, MongooseModule.forRoot('mongodb://0.0.0.0:27018/api-D&D'), AuthModule, ConfigModule.forRoot({
+    isGlobal: true,
+  })],
   controllers: [AppController],
   providers: [AppService],
 })
