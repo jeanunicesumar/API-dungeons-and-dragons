@@ -4,11 +4,12 @@ import { CrudRepository } from './crud.repository';
 import Adapter from 'src/common/adapter/adapter';
 
 @Injectable()
-export class CrudService<T, CreateDTO, UpdateDTO> implements ICrudService<T, CreateDTO, UpdateDTO> {
-
+export class CrudService<T, CreateDTO, UpdateDTO>
+  implements ICrudService<T, CreateDTO, UpdateDTO>
+{
   constructor(
     protected readonly repository: CrudRepository<T>,
-    protected readonly adapter: Adapter<T, CreateDTO, UpdateDTO>
+    protected readonly adapter: Adapter<T, CreateDTO, UpdateDTO>,
   ) {}
 
   public async findAll(): Promise<T[]> {
@@ -34,11 +35,10 @@ export class CrudService<T, CreateDTO, UpdateDTO> implements ICrudService<T, Cre
   }
 
   private async find(id: string): Promise<T> {
- 
-    const entity: T = await this.repository.findById(id)
+    const entity: T = await this.repository.findById(id);
 
     if (!entity) {
-      throw new NotFoundException(`Entity ${id} not found.`)
+      throw new NotFoundException(`Entity ${id} not found.`);
     }
 
     return entity;

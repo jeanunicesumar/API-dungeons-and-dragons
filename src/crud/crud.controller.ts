@@ -1,12 +1,22 @@
-import { Get, Post, Body, Patch, Param, Delete, Injectable, Controller } from '@nestjs/common';
+import {
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Injectable,
+  Controller,
+} from '@nestjs/common';
 import { CrudService } from './crud.service';
 import ICrudController from './interfaces/crud.controller';
 
 @Controller()
-export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<T, CreateDTO, UpdateDTO> {
-  
+export class CrudController<T, CreateDTO, UpdateDTO>
+  implements ICrudController<T, CreateDTO, UpdateDTO>
+{
   constructor(
-    protected readonly service: CrudService<T, CreateDTO, UpdateDTO>
+    protected readonly service: CrudService<T, CreateDTO, UpdateDTO>,
   ) {}
 
   @Post()
@@ -25,13 +35,15 @@ export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() update: UpdateDTO): Promise<void> {
-     this.service.update(id, update);
+  async update(
+    @Param('id') id: string,
+    @Body() update: UpdateDTO,
+  ): Promise<void> {
+    this.service.update(id, update);
   }
 
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<void> {
     this.service.delete(id);
   }
-  
 }
