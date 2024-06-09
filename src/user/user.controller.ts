@@ -22,10 +22,4 @@ export class UserController extends CrudController<User, CreateUserDto, UpdateUs
     return await this.Userservice.login(createUserDto)
   }
 
-  @Delete(':id')
-  async delete(@Param('id') id: string): Promise<void> {
-    await this.Userservice.delete(id)
-  }
-
-
 }
