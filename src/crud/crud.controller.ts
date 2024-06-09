@@ -7,9 +7,11 @@ import {
   Delete,
   Injectable,
   Controller,
+  UseGuards,
 } from '@nestjs/common';
 import { CrudService } from './crud.service';
 import ICrudController from './interfaces/crud.controller';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @Controller()
 export class CrudController<T, CreateDTO, UpdateDTO>
@@ -25,6 +27,7 @@ export class CrudController<T, CreateDTO, UpdateDTO>
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   async findAll(): Promise<T[]> {
     return this.service.findAll();
   }

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import ICrudService from './interfaces/crud.service';
 import { CrudRepository } from './crud.repository';
-import Adapter from 'src/common/adapter/adapter';
+import Adapter from '../common/adapter/adapter';
 
 @Injectable()
 export class CrudService<T, CreateDTO, UpdateDTO>
