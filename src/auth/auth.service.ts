@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../users/user.service';
 import * as bcrypt from 'bcrypt';
-import { User } from 'src/user/schema/user.schema';
+import { User } from '../users/schema/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
@@ -14,7 +14,7 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, password: string): Promise<User> {
-    const user = await this.userService.findOneByUsername(username);
+    const user = await this.userService.findByUsername(username);
     if (!user) {
       throw new UnauthorizedException('Usuário inválido');
     }
@@ -41,11 +41,14 @@ export class AuthService {
   }
 
   async register(user: User): Promise<any> {
-    const hashedPassword = await bcrypt.hash(user.password, 10); //passar DTO depois
-    const newUser = await this.userService.create({
-      ...user,
-      password: hashedPassword,
+    const hashedPassword = await bcrypt.hash(user.password, 10); 
+    await this.userService.create({
+     user: user.username,
+     email: user.email,
+     password: hashedPassword,
     });
-    return this.gerarToken(newUser);
+
+    const newUser = await this.userService.findByUsername(user.username);
+    newUser ? this.gerarToken(newUser) : new Error('Falha ao criar usuário');
   }
 }

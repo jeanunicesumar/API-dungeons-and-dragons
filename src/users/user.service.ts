@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CrudService } from 'src/crud/crud.service';
+import { CrudService } from '../crud/crud.service';
 import { User } from './schema/user.schema';
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,4 +18,10 @@ export class UserService extends CrudService<
   ) {
     super(userRepository, adapter);
   }
+  
+  async findByUsername(username: string): Promise<User | undefined> {
+    const users: User[] = await this.userRepository.findAll();
+    return users.find(user => user.username === username);
+  }
+  
 }
