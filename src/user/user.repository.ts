@@ -4,9 +4,16 @@ import { User } from "./schema/user.schema";
 import { CrudRepository } from "src/crud/crud.repository";
 import { Model } from "mongoose";
 
+
 @Injectable()
 export class UserRepository extends CrudRepository<User> {
     constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {
         super(userModel);
     }
+
+    public async findByEmailOrUsername(user: User): Promise<User | null> {
+        const _user = await this.userModel.findOne({ email: user.email }, { username: user.username })
+        return _user
+    }
+
 }

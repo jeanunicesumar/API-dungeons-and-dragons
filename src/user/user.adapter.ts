@@ -12,7 +12,11 @@ export default class UserAdapter implements Adapter<User, CreateUserDto, UpdateU
     }
     
     createToEntity(dto: CreateUserDto): User {
-        return new User();
+        return {
+            email: dto.email,
+            username: dto.username,
+            password: dto.password
+        } as User
     }
     
 }
