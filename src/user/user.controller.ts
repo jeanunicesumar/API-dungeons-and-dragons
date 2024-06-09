@@ -18,8 +18,13 @@ export class UserController extends CrudController<User, CreateUserDto, UpdateUs
   }
 
   @Post('login')
-  async login(@Body() createUserDto: CreateUserDto): Promise<string>{
+  async login(@Body() createUserDto: CreateUserDto): Promise<User> {
     return await this.Userservice.login(createUserDto)
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<void> {
+    await this.Userservice.delete(id)
   }
 
 

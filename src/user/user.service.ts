@@ -27,32 +27,13 @@ export class UserService extends CrudService<User, CreateUserDto, UpdateUserDto>
     }
   }
 
-  public async login(loginUser: CreateUserDto): Promise<string> {
+  public async login(loginUser: CreateUserDto): Promise<User> {
     const user: CreateUserDto | null = await this.userRepository.findByEmailOrUsername(loginUser)
     if (!Password.verify(user.password, loginUser.password)) {
       throw new UnauthorizedError('Unauthorized user', StatusCode.UNAUTHORIZED)
     }
-    return "teste"
-    // return Token.generateToken(loginUser)
+    return loginUser
   }
-
-  public async findAll(): Promise<User[]> {
-    return await this.userRepository.findAll()
-     
-  }
-
-  public async findById(idUser: string): Promise<User>{
-    return await this.userRepository.findById(idUser)
-  }
-
-  public async update(idUser: string, updatedUser: User){
-    await this.userRepository.update(idUser, updatedUser)
-  }
-
-  public async delete(idUser: string){
-    await this.userRepository.delete(idUser)
-  }
-
 
 
 }

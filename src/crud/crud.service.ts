@@ -25,7 +25,7 @@ export class CrudService<T, CreateDTO, UpdateDTO> implements ICrudService<T, Cre
   }
 
   public async update(id: string, body: UpdateDTO): Promise<void> {
-    const entity: T = this.adapter.updateToEntity(body);
+    const entity: T = await this.adapter.updateToEntity(body);
     this.repository.update(id, entity);
   }
 

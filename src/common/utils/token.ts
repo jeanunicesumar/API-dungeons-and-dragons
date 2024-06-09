@@ -4,7 +4,7 @@ import { User } from 'src/user/schema/user.schema'
 import { StatusCode } from '../enum/statusCode'
 import { ConfigService } from '@nestjs/config'
 import jwt from 'jsonwebtoken'
-
+import { configServer } from './configServidor'
 
 export class Token {
 
@@ -13,23 +13,16 @@ export class Token {
 
 
     public static generateToken(user: User): string {
-        const playload = {
+        const payload = {
             email: user.email,
             username: user.username,
         }
         const secretKey = this.configService.get<string | undefined>('SECRET_KEY')
         console.log(secretKey)
-        return this.jwtService.sign(playload, {
+        return this.jwtService.sign(payload, {
             secret: secretKey,
             expiresIn: '60min'
         })
     }
 
-    // public static verifyToken(token: string): jwt.JwtPayload {
-    //     try {
-    //         return this.jwtService.verify(token, this.SECRET_KEY) as jwt.JwtPayload
-    //     } catch {
-    //         throw new UnauthorizedError('invalid token', StatusCode.UNAUTHORIZED)
-    //     }
-    // }
 }
