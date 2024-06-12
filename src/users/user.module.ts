@@ -7,8 +7,8 @@ import { UserSchema } from './schema/user.schema';
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import UserAdapter from './user.adapter';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from 'src/common/utils/strategy/jwt.strategy';
 import { Token } from 'src/common/utils/token/token';
+import { JwtStrategy } from 'src/common/utils/strategy/jwt.strategy';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
@@ -22,7 +22,7 @@ import { Token } from 'src/common/utils/token/token';
   })
   ],
   controllers: [UserController],
-  providers: [UserService, UserRepository, UserAdapter, Token],
+  providers: [UserService, UserRepository, UserAdapter, Token, JwtStrategy],
   exports: [UserService]
 })
 export class UserModule { }

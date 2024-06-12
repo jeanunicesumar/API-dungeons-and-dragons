@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common';
 import { CrudService } from './crud.service';
 import ICrudController from './interfaces/crud.controller';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../common/utils/guards/jwt.guard';
 
 @Controller()
 export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<T, CreateDTO, UpdateDTO> {
