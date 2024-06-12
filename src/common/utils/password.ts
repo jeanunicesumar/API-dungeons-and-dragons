@@ -4,8 +4,7 @@ export class Password {
 
     private static readonly ROUNDS: number = 10
 
-    public static async generatePassword(password: string): Promise<string> {
-        console.log(password)
+    public static async generateEncrypted(password: string): Promise<string> {
         return await bcrypt.hash(password, this.ROUNDS)
     }
 
