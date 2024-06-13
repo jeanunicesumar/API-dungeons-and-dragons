@@ -10,7 +10,7 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
   ) {}
 
   async validateUser(username: string, password: string): Promise<User> {
@@ -41,11 +41,11 @@ export class AuthService {
   }
 
   async register(user: User): Promise<any> {
-    const hashedPassword = await bcrypt.hash(user.password, 10); 
+    const hashedPassword = await bcrypt.hash(user.password, 10);
     await this.userService.create({
-     user: user.username,
-     email: user.email,
-     password: hashedPassword,
+      user: user.username,
+      email: user.email,
+      password: hashedPassword,
     });
 
     const newUser = await this.userService.findByUsername(user.username);

@@ -8,9 +8,15 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UserModule, CharacterModule, MongooseModule.forRoot('mongodb://0.0.0.0:27018/api-D&D'), AuthModule, ConfigModule.forRoot({
-    isGlobal: true,
-  })],
+  imports: [
+    UserModule,
+    CharacterModule,
+    MongooseModule.forRoot('mongodb://0.0.0.0:27018/api-D&D'),
+    AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

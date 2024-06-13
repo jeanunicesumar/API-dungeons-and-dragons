@@ -18,10 +18,9 @@ export class UserService extends CrudService<
   ) {
     super(userRepository, adapter);
   }
-  
+
   async findByUsername(username: string): Promise<User | undefined> {
     const users: User[] = await this.userRepository.findAll();
-    return users.find(user => user.username === username);
+    return users.find((user) => user.username === username);
   }
-  
 }
