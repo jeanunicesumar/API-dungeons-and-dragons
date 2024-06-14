@@ -7,7 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schema/user.schema';
 
 @Controller('users')
-@UseGuards(JwtAuthGuard)
+
 export class UserController extends CrudController<User, CreateUserDto, UpdateUserDto> {
 
   constructor(protected readonly userService: UserService) {
@@ -16,11 +16,12 @@ export class UserController extends CrudController<User, CreateUserDto, UpdateUs
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<void> {
-    return await this.userService.create(createUserDto)
+    this.userService.create(createUserDto)
   }
 
   @Post('login')
-  async login(@Body() createUserDto: CreateUserDto): Promise<string> {
-    return await this.userService.login(createUserDto)
+  async login(@Body() createUserDto: CreateUserDto): Promise<Object> {
+    return { token: await this.userService.login(createUserDto) }
   }
+
 }

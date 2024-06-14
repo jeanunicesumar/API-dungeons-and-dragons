@@ -10,37 +10,9 @@ export class UserRepository extends CrudRepository<User> {
     super(userModel);
   }
 
-  public async create(user: User): Promise<void> {
-    await this.userModel.create(user)
-  }
-
-  public async findByEmail(userEmail: string, userName: string): Promise<User | null> {
+  public async findByEmailOrUsername(userEmail: string, userName: string): Promise<User | null> {
     const _user: User = await this.userModel.findOne({ email: userEmail, username: userName});
     return _user;
   }
 }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

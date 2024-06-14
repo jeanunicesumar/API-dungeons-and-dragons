@@ -8,15 +8,15 @@ export class CrudRepository<T> implements ICrudRepository<T> {
   constructor(private readonly model: Model<T>) { }
 
   public async findAll(): Promise<T[]> {
-    return await this.model.find();
+    return this.model.find();
   }
 
   public async findById(id: string): Promise<T> {
-    return await this.model.findById(id);
+    return this.model.findById(id);
   }
 
   public async create(body: T): Promise<void> {
-    await this.model.create(body);
+    this.model.create(body);
   }
 
   public async update(id: string, body: T): Promise<void> {

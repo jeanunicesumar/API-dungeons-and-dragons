@@ -27,21 +27,25 @@ export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   async findAll(): Promise<T[]> {
     return this.service.findAll();
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   async findById(@Param('id') id: string): Promise<T> {
     return this.service.findById(id);
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   async update(@Param('id') id: string, @Body() update: UpdateDTO): Promise<void> {
     this.service.update(id, update);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async delete(@Param('id') id: string): Promise<void> {
     this.service.delete(id);
   }
