@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
+import { AbilityBonus } from '../interface/race';
 
 export type CharacterDocument = HydratedDocument<Character>;
 
@@ -26,6 +27,9 @@ export class Character {
   @Prop()
   ability: string;
 
+  @Prop()
+  ability_bonuses: AbilityBonus[];
+  
   @Prop()
   feat: string;
 

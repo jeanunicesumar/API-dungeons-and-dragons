@@ -27,7 +27,7 @@ export class CrudController<T, CreateDTO, UpdateDTO>
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   async findAll(): Promise<T[]> {
     return this.service.findAll();
   }
