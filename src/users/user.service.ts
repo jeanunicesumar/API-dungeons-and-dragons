@@ -24,9 +24,9 @@ export class UserService extends CrudService<
 
   public async create(newUser: CreateUserDto): Promise<void> {
     const user: User | null = await this.validEmailOrUsername(newUser)
-    if (!user) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND)
-    }
+    // if (!user) {
+    //   throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+    // }
     if (!user) {
       const _user = this.adapter.createToEntity(newUser)
       _user.password = await Password.generateEncrypted(_user.password)
@@ -40,6 +40,7 @@ export class UserService extends CrudService<
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     }
     const validateUser: boolean | null = await Password.verify(loginUser.password, dataUser.password)
+    console.log(validateUser)
     if (!validateUser) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED)
     }

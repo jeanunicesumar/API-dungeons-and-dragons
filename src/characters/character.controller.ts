@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import { CharacterService } from './character.service';
 import { UpdateCharacterDto } from './dto/update-character.dto';
-import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { Character } from './schema/character.schema';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { CrudController } from 'src/crud/crud.controller';
