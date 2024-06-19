@@ -7,7 +7,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import UserAdapter from './user.adapter';
 import { Password } from 'src/common/utils/password';
 import { Token } from 'src/common/utils/token/token';
-import { promises } from 'dns';
 
 @Injectable()
 export class UserService extends CrudService<

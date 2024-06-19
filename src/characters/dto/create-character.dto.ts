@@ -1,44 +1,24 @@
-import { IsArray, IsNotEmpty, IsString, Max } from 'class-validator';
-import { AbilityBonus } from '../interface/abilityBonus';
+import { IsEnum, IsNotEmpty, IsString, Max, Min } from 'class-validator';
+import { Races } from '../enums/races';
+import { Classes } from '../enums/classes';
 
 export class CreateCharacterDto {
+
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @IsString()
+  @IsEnum(Races)
   @IsNotEmpty()
   race: string;
 
-  @IsString()
-  subrace: string;
-
-  @IsString()
+  @IsEnum(Classes)
   @IsNotEmpty()
   class: string;
 
   @Max(20)
+  @Min(0)
   @IsNotEmpty()
   level: number;
 
-  @IsString()
-  @IsNotEmpty()
-  ability: string;
-
-  ability_bonuses: AbilityBonus[];
-  
-  @IsString()
-  feat: string;
-
-  @IsString()
-  spell: string;
-
-  @IsString()
-  alignment: string;
-
-  @IsArray()
-  skill: string[];
-
-  @IsArray()
-  equipment: string[];
 }
