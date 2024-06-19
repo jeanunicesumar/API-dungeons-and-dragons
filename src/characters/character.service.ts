@@ -1,4 +1,4 @@
-import { ClassDetails } from './interface/classes';
+import { ClassDetails } from './interface/classDetails';
 import { Injectable } from '@nestjs/common';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
@@ -7,8 +7,11 @@ import { GeminiService } from '../gemini/gemini.service';
 import { CrudService } from '../crud/crud.service';
 import { CharacterRepository } from './character.repository';
 import CharacterAdapter from './character.adapter';
-import { AbilityDetails, AbilityScore, Race, RaceDetails } from './interface/race';
+import { Race } from './interface/race';
+import { RaceDetails } from './interface/raceDetails';
 import { Classes } from 'src/characters/interface/classes';
+import { AbilityScore } from './interface/abilityScore';
+import { AbilityDetails } from './interface/abilityDetails';
 
 @Injectable()
 export class CharacterService extends CrudService<
