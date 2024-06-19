@@ -21,12 +21,20 @@ export default class CommonRequest {
         return this.fetchJson<RaceDetails>(`${this.URL + race.url}`);
     }
 
+    public async fetchRaceDetailsByName(name: string): Promise<RaceDetails> {
+        return this.fetchJson<RaceDetails>(`${this.URL}/api/races/${name}`);
+    }
+
     public async fetchClass(): Promise<Classes[]> {
         return (await this.fetchJson<{ results: Classes[] }>(`${this.URL}/api/classes`)).results;
     }
 
     public async fetchClassDetails(randomicClass: Classes): Promise<ClassDetails> {
         return this.fetchJson<ClassDetails>(`${this.URL + randomicClass.url}`);
+    }
+
+    public async fetchClassDetailsByName(name: string): Promise<ClassDetails> {
+        return this.fetchJson<ClassDetails>(`${this.URL}/api/classes/${name}`);
     }
 
     public async fetchAbility(): Promise<AbilityScore[]>{

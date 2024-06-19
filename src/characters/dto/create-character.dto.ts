@@ -12,9 +12,13 @@ export class CreateCharacterDto {
   @IsNotEmpty()
   race: string;
 
+  subrace: string;
+
   @IsEnum(Classes)
   @IsNotEmpty()
   class: string;
+
+  subClass: string;
 
   @Max(20)
   @Min(0)

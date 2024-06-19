@@ -1,3 +1,5 @@
+import { SubClass } from "./subclass";
+
 export interface ClassDetails {
     index: string;
     name: string;
@@ -13,5 +15,5 @@ export interface ClassDetails {
             name: string
         }
     }[];
-
+    subclasses: [SubClass],
 }
