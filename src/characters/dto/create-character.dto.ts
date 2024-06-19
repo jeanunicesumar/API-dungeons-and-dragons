@@ -1,4 +1,5 @@
 import { IsArray, IsNotEmpty, IsString, Max } from 'class-validator';
+import { AbilityBonus } from '../interface/abilityBonus';
 
 export class CreateCharacterDto {
   @IsString()
@@ -24,23 +25,20 @@ export class CreateCharacterDto {
   @IsNotEmpty()
   ability: string;
 
+  ability_bonuses: AbilityBonus[];
+  
   @IsString()
-  @IsNotEmpty()
   feat: string;
 
   @IsString()
-  @IsNotEmpty()
   spell: string;
 
   @IsString()
-  @IsNotEmpty()
   alignment: string;
 
   @IsArray()
-  @IsNotEmpty()
   skill: string[];
 
   @IsArray()
-  @IsNotEmpty()
   equipment: string[];
 }

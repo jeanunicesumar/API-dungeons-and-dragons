@@ -3,43 +3,40 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CharacterService } from './character.service';
-import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
+import { Character } from './schema/character.schema';
+import { CreateCharacterDto } from './dto/create-character.dto';
+import { CrudController } from 'src/crud/crud.controller';
 
 @Controller('characters')
-export class CharacterController {
-  constructor(private readonly characterService: CharacterService) {}
-
-  @Post()
-  create(@Body() createCharacterDto: CreateCharacterDto) {
-    return this.characterService.create(createCharacterDto);
+export class CharacterController extends CrudController<
+  Character,
+  CreateCharacterDto,
+  UpdateCharacterDto
+> {
+  constructor(protected readonly service: CharacterService) {
+    super(service);
   }
 
-  @Get()
-  findAll() {
-    return this.characterService.findAll();
+  // @Post('random')
+  // // @UseGuards(JwtAuthGuard)
+  // async createRandomCharacter() {
+  //   return this.service.createRandomCharacter();
+  // }
+
+  @Post(':id/background')
+  // @UseGuards(JwtAuthGuard)
+  async generateBackground(id: string) {
+    return this.service.generateBackground(id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.characterService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCharacterDto: UpdateCharacterDto,
-  ) {
-    return this.characterService.update(+id, updateCharacterDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.characterService.remove(+id);
+  @Post('adventure')
+  // @UseGuards(JwtAuthGuard)
+  async generateAdventure() {
+    return this.service.generateAdventure();
   }
 }

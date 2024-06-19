@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UserModule } from './users/user.module';
 import { CharacterModule } from './characters/character.module';
 import { ConfigModule } from '@nestjs/config';
+import { GeminiService } from './gemini/gemini.service';
 
 
 @Module({
@@ -12,6 +13,6 @@ import { ConfigModule } from '@nestjs/config';
     isGlobal: true,
   })],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, GeminiService],
 })
 export class AppModule {}
