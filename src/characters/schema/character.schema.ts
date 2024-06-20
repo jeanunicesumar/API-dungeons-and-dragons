@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
+import { AbilityBonus } from '../interface/abilityBonus';
 
 export type CharacterDocument = HydratedDocument<Character>;
 
@@ -20,12 +21,18 @@ export class Character {
   @Prop({ required: true })
   class: string;
 
+  @Prop()
+  subclass: string;
+
   @Prop({ required: true, min: 1, max: 20 })
   level: number;
 
   @Prop()
   ability: string;
 
+  @Prop()
+  ability_bonuses: AbilityBonus[];
+  
   @Prop()
   feat: string;
 

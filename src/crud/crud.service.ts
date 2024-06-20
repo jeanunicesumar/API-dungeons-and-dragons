@@ -2,15 +2,15 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import ICrudService from './interfaces/crud.service';
 import { CrudRepository } from './crud.repository';
 import Adapter from '../common/adapter/adapter';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class CrudService<T, CreateDTO, UpdateDTO>
-  implements ICrudService<T, CreateDTO, UpdateDTO>
-{
+  implements ICrudService<T, CreateDTO, UpdateDTO> {
   constructor(
     protected readonly repository: CrudRepository<T>,
     protected readonly adapter: Adapter<T, CreateDTO, UpdateDTO>,
-  ) {}
+  ) { }
 
   public async findAll(): Promise<T[]> {
     return this.repository.findAll();
