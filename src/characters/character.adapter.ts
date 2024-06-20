@@ -21,10 +21,10 @@ export default class CharacterAdapter
       level: dto.level,
       ability: dto.ability,
       alignment: dto.alignment,
-      skill: dto.skill,
+      proficiencies: dto.proficiencies,
       equipment: dto.equipment,
-      feat: dto.feat,
       spell: dto.spell,
+      ability_bonuses: dto.ability_bonuses
     } as Character;
   }
 }

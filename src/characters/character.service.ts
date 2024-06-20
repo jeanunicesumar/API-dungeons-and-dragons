@@ -12,6 +12,9 @@ import { RaceDetails } from './interface/raceDetails';
 import { Classes } from 'src/characters/interface/classes';
 import { AbilityScore } from './interface/abilityScore';
 import { AbilityDetails } from './interface/abilityDetails';
+import { ConfigService } from '@nestjs/config';
+import { AbilityScoreName } from './interface/abilityScoreName';
+
 
 @Injectable()
 export class CharacterService extends CrudService<
@@ -20,12 +23,15 @@ export class CharacterService extends CrudService<
   UpdateCharacterDto
 >
 {
+  private readonly apiUrl: string;
   constructor(
     protected readonly characterRepository: CharacterRepository,
     protected readonly adapter: CharacterAdapter,
-    protected readonly geminiService: GeminiService
+    protected readonly geminiService: GeminiService,
+    protected readonly configService: ConfigService
   ) {
     super(characterRepository, adapter);
+    this.apiUrl = this.configService.get<string>('API_URL');
   }
 
   async fetchJson<T>(url: string) : Promise<T> {
@@ -41,46 +47,38 @@ export class CharacterService extends CrudService<
   }
 
   async fetchRace(): Promise<Race[]> {
-    const racesData = await this.fetchJson<{ results: Race[] }>(`https://www.dnd5eapi.co/api/races`);
-    console.log("race Datas", racesData.results)
+    const racesData = await this.fetchJson<{ results: Race[] }>(`${this.apiUrl}/api/races`);
     return racesData.results;
   }
 
   async fetchRaceDetails(race: Race): Promise<RaceDetails> {
-    const result = await this.fetchJson<RaceDetails>(`https://www.dnd5eapi.co${race.url}`);
-
-    console.log("result race", result)
+    const result = await this.fetchJson<RaceDetails>(`${this.apiUrl}${race.url}`);
     return result;
   }
   
   async fetchClass(): Promise<Classes[]>{
-    const classesData = await this.fetchJson<{ results: Classes[] }>(`https://www.dnd5eapi.co/api/classes`);
-    console.log("classes Datas", classesData.results)
+    const classesData = await this.fetchJson<{ results: Classes[] }>(`${this.apiUrl}/api/classes`);
     return classesData.results;
   }
 
   async fetchClassDetails(randomicClass: Classes): Promise<ClassDetails>{
-    const result = await this.fetchJson<ClassDetails>(`https://www.dnd5eapi.co${randomicClass.url}`);
-    console.log('fetch class details', result)
+    const result = await this.fetchJson<ClassDetails>(`${this.apiUrl}${randomicClass.url}`);
     return result;
   }
 
   async fetchAbility(): Promise<AbilityScore[]>{
-    const abilities = await this.fetchJson<{ results: AbilityScore[] }>(`https://www.dnd5eapi.co/api/ability-scores`); 
-    console.log('fetch abilities', abilities.results)
+    const abilities = await this.fetchJson<{ results: AbilityScore[] }>(`${this.apiUrl}/api/ability-scores`); 
     return abilities.results;
   }
 
   async fetchAbilityDetails(ability: AbilityScore): Promise<AbilityDetails>{
-    const results = await this.fetchJson<AbilityDetails>(`https://www.dnd5eapi.co${ability.url}`)
-    console.log('fetch ability details', results)
+    const results = await this.fetchJson<AbilityDetails>(`${this.apiUrl}${ability.url}`)
     return results
   }
 
   async getRandomRace(): Promise<Race> {
     const races = await this.fetchRace();
     const race = this.getRandomItem<Race>(races);
-    console.log('get random race', race)
     return race;
   }
 
@@ -90,23 +88,30 @@ export class CharacterService extends CrudService<
     return null;
   }
     const subrace = this.getRandomItem(raceDetails.subraces);
-    console.log('subrace name', subrace.name)
   return subrace ? subrace.name : null;
   }
 
   async getRandomClass(): Promise<Classes>{
     const classes = await this.fetchClass();
     const randomicClass = this.getRandomItem<Classes>(classes);
-    console.log("random class", randomicClass)
     return randomicClass;
   }
 
   async getRandomAbility() {
     const abilities = await this.fetchAbility();
     const randomAbility = this.getRandomItem<AbilityScore>(abilities);
-    console.log('random ability', randomAbility)
     return randomAbility;
-}
+  }
+  
+  mapAbilityBonuses(raceDetails: RaceDetails): any {
+    const abilityBonuses: AbilityScoreName[] = raceDetails.ability_bonuses.map(ability => ({
+      ability_score: ability.ability_score.name,
+      bonus: ability.bonus
+    }));
+    
+    return abilityBonuses;
+  }
+  
 
   async createRandomCharacter(): Promise<CreateCharacterDto> {
       const [randomRace, classResult, randomAbility] = await Promise.all([
@@ -127,13 +132,13 @@ export class CharacterService extends CrudService<
         class: classResult.name,
         level: randomLevel,
         ability: abilityDetails.full_name,
-        ability_bonuses: raceDetails.ability_bonuses,
+        ability_bonuses: this.mapAbilityBonuses(raceDetails),
         alignment: raceDetails.alignment,
-        skill: classDetails.proficiencies ? classDetails.proficiencies.map( proficiency => proficiency.name ): [],
+        proficiencies: classDetails.proficiencies ? classDetails.proficiencies.map(proficiency => proficiency.name) : [],
         equipment: classDetails.starting_equipment ? classDetails.starting_equipment.map(equip => equip.equipment.name) : [],
-        feat: '',
-        spell: raceDetails.language_desc
-      };
+        spell: raceDetails.language_desc,
+    };
+    console.log(createCharacterDto)
     await this.create(createCharacterDto);
     return createCharacterDto;
   }

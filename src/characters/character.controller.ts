@@ -21,12 +21,6 @@ export class CharacterController extends CrudController<
     super(service);
   }
 
-  // @Post('random')
-  // // @UseGuards(JwtAuthGuard)
-  // async createRandomCharacter() {
-  //   return this.service.createRandomCharacter();
-  // }
-
   @Post(':id/background')
   // @UseGuards(JwtAuthGuard)
   async generateBackground(id: string) {
@@ -39,3 +33,6 @@ export class CharacterController extends CrudController<
     return this.service.generateAdventure();
   }
 }
+
+
+//api/classes/:index/levels/:class_level/features
