@@ -1,4 +1,3 @@
-import { ClassDetails } from './interface/classDetails';
 import { Injectable } from '@nestjs/common';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
@@ -7,14 +6,6 @@ import { GeminiService } from '../gemini/gemini.service';
 import { CrudService } from '../crud/crud.service';
 import { CharacterRepository } from './character.repository';
 import CharacterAdapter from './character.adapter';
-import { Race } from './interface/race';
-import { RaceDetails } from './interface/raceDetails';
-import { Classes } from 'src/characters/interface/classes';
-import { AbilityScore } from './interface/abilityScore';
-import { AbilityDetails } from './interface/abilityDetails';
-import { ConfigService } from '@nestjs/config';
-import { AbilityScoreName } from './interface/abilityScoreName';
-
 
 @Injectable()
 export class CharacterService extends CrudService<
@@ -34,9 +25,9 @@ export class CharacterService extends CrudService<
     this.apiUrl = this.configService.get<string>('API_URL');
   }
 
-  async fetchJson<T>(url: string) : Promise<T> {
-    const response = await fetch(url);
-    if(response) return response.json();
+  public async create(body: CreateCharacterDto): Promise<void> {
+    const entity: Character = this.adapter.createToEntity(body);
+    this.repository.create(entity);
   }
 
   getRandomItem<T>(items: T[]): T | null {
@@ -143,15 +134,16 @@ export class CharacterService extends CrudService<
     return createCharacterDto;
   }
   
-  async generateBackground(id: string): Promise<string> {
+  public async generateBackground(id: string): Promise<string> {
     return this.geminiService.createBackground(id);
   }
 
-  async generateAdventure(): Promise<string> {
-    let promises = [];
-      for (let i = 0; i < 3; i++) {
-        promises.push(this.createRandomCharacter());
+  public async generateAdventure(): Promise<string> {
+    const promises = [];
+    for (let i = 0; i < 3; i++) {
+      promises.push(this.createRandomCharacter());
     }
+
     const createdCharacters = await Promise.all(promises);
     return this.geminiService.createAdventure(createdCharacters);
   }

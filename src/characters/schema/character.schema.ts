@@ -21,6 +21,9 @@ export class Character {
   @Prop({ required: true })
   class: string;
 
+  @Prop()
+  subclass: string;
+
   @Prop({ required: true, min: 1, max: 20 })
   level: number;
 
