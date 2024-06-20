@@ -9,10 +9,17 @@ import CharacterAdapter from './character.adapter';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Character.name, schema: CharacterSchema }])
+    MongooseModule.forFeature([
+      { name: Character.name, schema: CharacterSchema },
+    ]),
   ],
   controllers: [CharacterController],
-  providers: [CharacterService, CharacterRepository, CharacterAdapter, GeminiService],
-  exports: [CharacterService, CharacterRepository]
+  providers: [
+    CharacterService,
+    CharacterRepository,
+    CharacterAdapter,
+    GeminiService,
+  ],
+  exports: [CharacterService, CharacterRepository],
 })
 export class CharacterModule {}

@@ -6,7 +6,10 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class CharacterRepository extends CrudRepository<Character> {
-  constructor(@InjectModel(Character.name) private readonly characterModel: Model<Character>) {
+  constructor(
+    @InjectModel(Character.name)
+    private readonly characterModel: Model<Character>,
+  ) {
     super(characterModel);
   }
 }

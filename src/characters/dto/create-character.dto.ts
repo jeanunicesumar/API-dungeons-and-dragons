@@ -3,7 +3,6 @@ import { Races } from '../enums/races';
 import { Classes } from '../enums/classes';
 
 export class CreateCharacterDto {
-
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -24,5 +23,4 @@ export class CreateCharacterDto {
   @Min(0)
   @IsNotEmpty()
   level: number;
-
 }

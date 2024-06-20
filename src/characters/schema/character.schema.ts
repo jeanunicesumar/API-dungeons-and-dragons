@@ -32,7 +32,7 @@ export class Character {
 
   @Prop()
   ability_bonuses: AbilityBonus[];
-  
+
   @Prop()
   feat: string;
 

@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { CharacterService } from './character.service';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { Character } from './schema/character.schema';

@@ -15,11 +15,12 @@ import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../common/utils/guards/jwt.guard';
 
 @Controller()
-export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<T, CreateDTO, UpdateDTO> {
-
+export class CrudController<T, CreateDTO, UpdateDTO>
+  implements ICrudController<T, CreateDTO, UpdateDTO>
+{
   constructor(
     protected readonly service: CrudService<T, CreateDTO, UpdateDTO>,
-  ) { }
+  ) {}
 
   @Post()
   create(@Body() body: CreateDTO): Promise<void> {
@@ -40,7 +41,10 @@ export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  async update(@Param('id') id: string, @Body() update: UpdateDTO): Promise<void> {
+  async update(
+    @Param('id') id: string,
+    @Body() update: UpdateDTO,
+  ): Promise<void> {
     this.service.update(id, update);
   }
 

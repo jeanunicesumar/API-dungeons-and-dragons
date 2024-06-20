@@ -7,11 +7,15 @@ import { CharacterModule } from './characters/character.module';
 import { ConfigModule } from '@nestjs/config';
 import { GeminiService } from './gemini/gemini.service';
 
-
 @Module({
-  imports: [UserModule, CharacterModule, MongooseModule.forRoot('mongodb://0.0.0.0:27018/api-D&D'), ConfigModule.forRoot({
-    isGlobal: true,
-  })],
+  imports: [
+    UserModule,
+    CharacterModule,
+    MongooseModule.forRoot('mongodb://0.0.0.0:27018/api-D&D'),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService, GeminiService],
 })

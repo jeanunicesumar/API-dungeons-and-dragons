@@ -1,5 +1,5 @@
 export interface AbilityScore {
-    index: string;
-    name: string;
-    url: string;
+  index: string;
+  name: string;
+  url: string;
 }

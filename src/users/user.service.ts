@@ -17,38 +17,42 @@ export class UserService extends CrudService<
   constructor(
     protected readonly userRepository: UserRepository,
     protected readonly adapter: UserAdapter,
-    protected readonly token: Token
+    protected readonly token: Token,
   ) {
     super(userRepository, adapter);
   }
 
   public async create(newUser: CreateUserDto): Promise<void> {
-    const user: User | null = await this.validEmailOrUsername(newUser)
+    const user: User | null = await this.validEmailOrUsername(newUser);
     // if (!user) {
     //   throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     // }
     if (!user) {
-      const _user = this.adapter.createToEntity(newUser)
-      _user.password = await Password.generateEncrypted(_user.password)
-      await this.userRepository.create(_user)
+      const _user = this.adapter.createToEntity(newUser);
+      _user.password = await Password.generateEncrypted(_user.password);
+      await this.userRepository.create(_user);
     }
   }
 
   public async login(loginUser: CreateUserDto): Promise<string> {
-    const dataUser: User | null = await this.validEmailOrUsername(loginUser)
+    const dataUser: User | null = await this.validEmailOrUsername(loginUser);
     if (!dataUser) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-    const validateUser: boolean | null = await Password.verify(loginUser.password, dataUser.password)
-    console.log(validateUser)
+    const validateUser: boolean | null = await Password.verify(
+      loginUser.password,
+      dataUser.password,
+    );
+    console.log(validateUser);
     if (!validateUser) {
-      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED)
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
-    return this.token.generateToken(dataUser)
+    return this.token.generateToken(dataUser);
   }
 
-  private async validEmailOrUsername(user: CreateUserDto): Promise<User | null> {
-    return this.userRepository.findByEmailOrUsername(user.email, user.username)
+  private async validEmailOrUsername(
+    user: CreateUserDto,
+  ): Promise<User | null> {
+    return this.userRepository.findByEmailOrUsername(user.email, user.username);
   }
-
 }
