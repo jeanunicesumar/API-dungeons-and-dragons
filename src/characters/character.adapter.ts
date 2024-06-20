@@ -17,14 +17,9 @@ export default class CharacterAdapter
       name: dto.name,
       race: dto.race,
       subrace: dto.subrace,
+      subclass: dto.subClass,
       class: dto.class,
       level: dto.level,
-      ability: dto.ability,
-      alignment: dto.alignment,
-      skill: dto.skill,
-      equipment: dto.equipment,
-      feat: dto.feat,
-      spell: dto.spell,
     } as Character;
   }
 }
