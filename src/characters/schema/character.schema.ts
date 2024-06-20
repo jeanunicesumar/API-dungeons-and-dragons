@@ -30,12 +30,9 @@ export class Character {
   @Prop()
   ability: string;
 
-  @Prop()
+  @Prop([Object])
   ability_bonuses: AbilityBonus[];
   
-  @Prop()
-  feat: string;
-
   @Prop()
   spell: string;
 
@@ -43,7 +40,7 @@ export class Character {
   alignment: string;
 
   @Prop([String])
-  skill: string[];
+  proficiencies: string[];
 
   @Prop([String])
   equipment: string[];

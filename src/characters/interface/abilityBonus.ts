@@ -4,3 +4,4 @@ export interface AbilityBonus {
     ability_score: AbilityScore;
     bonus: number;
 }
+
