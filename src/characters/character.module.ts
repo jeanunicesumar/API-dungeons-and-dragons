@@ -6,13 +6,14 @@ import { Character, CharacterSchema } from './schema/character.schema';
 import { GeminiService } from 'src/gemini/gemini.service';
 import { CharacterRepository } from './character.repository';
 import CharacterAdapter from './character.adapter';
+import CommonRequest from './common-request/common-request';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Character.name, schema: CharacterSchema }])
   ],
   controllers: [CharacterController],
-  providers: [CharacterService, CharacterRepository, CharacterAdapter, GeminiService],
+  providers: [CharacterService, CharacterRepository, CharacterAdapter, GeminiService, CommonRequest],
   exports: [CharacterService, CharacterRepository]
 })
 export class CharacterModule {}

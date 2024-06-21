@@ -26,7 +26,9 @@ export default class CommonRequest {
     }
 
     public async fetchClass(): Promise<Classes[]> {
-        return (await this.fetchJson<{ results: Classes[] }>(`${this.URL}/api/classes`)).results;
+        const classesData = await this.fetchJson<{ results: Classes[] }>(`${this.URL}/api/classes`);
+        return classesData.results;
+        
     }
 
     public async fetchClassDetails(randomicClass: Classes): Promise<ClassDetails> {
@@ -48,5 +50,9 @@ export default class CommonRequest {
     private async fetchJson<T>(url: string): Promise<T> {
         const response = await fetch(url);
         if(response) return response.json();
+    }
+
+    public async fetchFeatures(classes: string, level: number): Promise<any> {
+        return this.fetchJson<any>(`${this.URL}/api/classes/${classes}/levels/${level}/features`);
     }
 }
