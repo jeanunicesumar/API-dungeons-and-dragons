@@ -4,6 +4,7 @@ import {
   Post,
   Body,
   UseGuards,
+  Param,
 } from '@nestjs/common';
 import { CharacterService } from './character.service';
 import { UpdateCharacterDto } from './dto/update-character.dto';
@@ -23,7 +24,7 @@ export class CharacterController extends CrudController<
 
   @Post(':id/background')
   // @UseGuards(JwtAuthGuard)
-  async generateBackground(id: string) {
+  async generateBackground(@Param('id') id: string) {
     return this.service.generateBackground(id);
   }
 
