@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import ICrudService from './interfaces/crud.service';
 import { CrudRepository } from './crud.repository';
 import Adapter from '../common/adapter/adapter';
-import { Types } from 'mongoose';
 
 @Injectable()
 export class CrudService<T, CreateDTO, UpdateDTO>
@@ -35,7 +34,7 @@ export class CrudService<T, CreateDTO, UpdateDTO>
     this.repository.delete(id);
   }
 
-  private async find(id: string): Promise<T> {
+  protected async find(id: string): Promise<T> {
     const entity: T = await this.repository.findById(id);
 
     if (!entity) {
