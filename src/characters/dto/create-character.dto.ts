@@ -18,7 +18,7 @@ export class CreateCharacterDto {
   @IsNotEmpty()
   class: string;
 
-  subClass: string;
+  subclass: string;
 
   @Max(20)
   @Min(0)
