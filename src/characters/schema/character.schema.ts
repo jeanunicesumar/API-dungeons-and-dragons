@@ -14,7 +14,7 @@ export class Character {
   race: string;
 
   @Prop()
-  subrace?: string;
+  subrace: string;
 
   @Prop({ required: true })
   class: string;

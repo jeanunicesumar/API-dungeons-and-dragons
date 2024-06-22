@@ -36,6 +36,19 @@ export class CharacterService extends CrudService<Character, CreateCharacterDto,
     this.repository.create(entity);
   }
 
+  public async update(id: string, body: UpdateCharacterDto): Promise<void> {
+    
+    const character: Character = await this.find(id);
+    const characterUpdated: Character = this.adapter.updateToEntityConvert(body, character);
+    const createDTO: CreateCharacterDto = this.adapter.entityToCreate(characterUpdated);
+
+    await this.characterValidate.validate(createDTO);
+    const entity: Character = this.adapter.createToEntity(createDTO);
+
+    await this.buildCharacter(entity); 
+    await this.repository.update(id, entity);
+  }
+
   private async buildCharacter(character: Character): Promise<void> {
 
     const raceDetails: RaceDetails = await this.commonRequest.fetchRaceDetailsByName(character.race);

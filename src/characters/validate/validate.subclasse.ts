@@ -21,14 +21,14 @@ export default class ValidateSubClasse implements CharacterValidate {
             throw new HttpException("Class not found", HttpStatus.NOT_FOUND);
         }
 
-        if (!createCharacter.subClass) {
+        if (!createCharacter.subclass) {
             await this.next?.validate(createCharacter);
             return;
         }
 
-        const subClassNotIsValid = !classe.subclasses.map(classe => classe.name).includes(createCharacter.subClass);
+        const subClassNotIsValid = !classe.subclasses.map(classe => classe.name).includes(createCharacter.subclass);
         if (subClassNotIsValid) {
-            throw new HttpException(`Invalid subClass ${createCharacter.subClass}`, HttpStatus.BAD_REQUEST);
+            throw new HttpException(`Invalid subClass ${createCharacter.subclass}`, HttpStatus.BAD_REQUEST);
         }
 
         await this.next?.validate(createCharacter);

@@ -1,4 +1,4 @@
-import { Controller, Post, Param, Body } from '@nestjs/common';
+import { Controller, Post, Param, Body, Patch } from '@nestjs/common';
 import { CharacterService } from './character.service';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { Character } from './schema/character.schema';
@@ -15,6 +15,11 @@ export class CharacterController extends CrudController<Character, CreateCharact
   @Post()
   async create(@Body() body: CreateCharacterDto): Promise<void> {
     await this.service.create(body);
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() update: UpdateCharacterDto): Promise<void> {
+    await this.service.update(id, update);
   }
 
   @Post(':id/background')
