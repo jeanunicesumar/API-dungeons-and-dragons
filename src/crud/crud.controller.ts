@@ -1,17 +1,6 @@
-import {
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Injectable,
-  Controller,
-  UseGuards,
-} from '@nestjs/common';
+import { Get, Post, Body, Patch, Param, Delete, Controller, UseGuards } from '@nestjs/common';
 import { CrudService } from './crud.service';
 import ICrudController from './interfaces/crud.controller';
-import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../common/utils/guards/jwt.guard';
 
 @Controller()
@@ -49,4 +38,5 @@ export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<
   async delete(@Param('id') id: string): Promise<void> {
     this.service.delete(id);
   }
+  
 }

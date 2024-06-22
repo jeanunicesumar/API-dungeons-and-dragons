@@ -10,36 +10,44 @@ import CommonRequest from './common-request/common-request';
 import { Race } from './interface/race';
 import { Classes } from './interface/classes';
 import { AbilityScore } from './interface/abilityScore';
-import { RaceDetails } from './interface/raceDetails';
 import { AbilityScoreName } from './interface/abilityScoreName';
+import CharacterValidate from './validate/character.validate';
+import { ClassDetails } from './interface/classDetails';
+import { RaceDetails } from './interface/raceDetails';
 
 @Injectable()
-export class CharacterService extends CrudService<
-  Character,
-  CreateCharacterDto,
-  UpdateCharacterDto
->
-{
+export class CharacterService extends CrudService<Character, CreateCharacterDto, UpdateCharacterDto> {
+
   constructor(
     protected readonly characterRepository: CharacterRepository,
     protected readonly adapter: CharacterAdapter,
     protected readonly geminiService: GeminiService,
-    private readonly commonRequest: CommonRequest
-
+    private readonly commonRequest: CommonRequest,
+    private readonly characterValidate: CharacterValidate
   ) {
     super(characterRepository, adapter);
   }
 
   public async create(body: CreateCharacterDto): Promise<void> {
+    await this.characterValidate.validate(body);
     const entity: Character = this.adapter.createToEntity(body);
+
+    await this.buildCharacter(entity); 
     this.repository.create(entity);
   }
 
-  getRandomItem<T>(items: T[]): T | null {
-    if (!items || items.length === 0) {
-      return null;
-    }
-    return items[Math.floor(Math.random() * items.length)];
+  private async buildCharacter(character: Character): Promise<void> {
+
+    const raceDetails: RaceDetails = await this.commonRequest.fetchRaceDetailsByName(character.race);
+    const classDetails: ClassDetails = await this.commonRequest.fetchClassDetailsByName(character.class);
+
+    character.features = await this.getFeatures(character.class.toLocaleLowerCase(), character.level);
+    character.ability = (await this.commonRequest.fetchAbilityDetails(await this.getRandomAbility())).full_name;
+    character.ability_bonuses = this.mapAbilityBonuses(raceDetails);
+    character.alignment = raceDetails.alignment;
+    character.proficiencies = classDetails.proficiencies ? classDetails.proficiencies.map(proficiency => proficiency.name) : [];
+    character.equipment = classDetails.starting_equipment ? classDetails.starting_equipment.map(equip => equip.equipment.name) : [];
+    character.spell = raceDetails.language_desc;
   }
 
   async getRandomRace(): Promise<Race> {
@@ -68,6 +76,7 @@ export class CharacterService extends CrudService<
     const randomAbility = this.getRandomItem<AbilityScore>(abilities);
     return randomAbility;
   }
+
   getRandomLevel(): number {
     return Math.floor(Math.random() * 20) + 1; 
   }
@@ -148,4 +157,12 @@ export class CharacterService extends CrudService<
     const createdCharacters = await Promise.all(promises);
     return this.geminiService.createAdventure(createdCharacters);
   }
+
+  private getRandomItem<T>(items: T[]): T | null {
+    if (!items || items.length === 0) {
+      return null;
+    }
+    return items[Math.floor(Math.random() * items.length)];
+  }
+
 }

@@ -1,7 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UserModule } from './users/user.module';
 import { CharacterModule } from './characters/character.module';
 import { ConfigModule } from '@nestjs/config';
@@ -20,8 +18,8 @@ import { LogModule } from './responseTime/log.module';
     MongooseModule.forFeature([{ name: 'Log', schema: LogSchema }]),
     LogModule
   ],
-  controllers: [AppController],
-  providers: [AppService, GeminiService, LogService],
+  controllers: [],
+  providers: [GeminiService, LogService],
 })
 export class AppModule implements NestModule{
   configure(consumer: MiddlewareConsumer) {

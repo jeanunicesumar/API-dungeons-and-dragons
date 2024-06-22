@@ -5,8 +5,6 @@ export type LogDocument = HydratedDocument<Log>;
 
 @Schema({ timestamps: true })
 export class Log {
-  @Prop({ type: SchemaTypes.ObjectId })
-  id: Types.ObjectId;
 
   @Prop({ required: true })
   route: string;
