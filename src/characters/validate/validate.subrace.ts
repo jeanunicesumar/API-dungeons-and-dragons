@@ -8,14 +8,14 @@ import { RaceDetails } from "../interface/raceDetails";
 export default class ValidateSubRace implements CharacterValidate {
 
     private readonly request: CommonRequest;
-
     private readonly next: CharacterValidate;
 
-    constructor(next: CharacterValidate) {
+    constructor(next: CharacterValidate, request: CommonRequest) {
         this.next = next;
+        this.request = request;
     }
 
-    public async validate(createCharacter: CreateCharacterDto, character: Character): Promise<void> {
+    public async validate(createCharacter: CreateCharacterDto): Promise<void> {
 
         const race: RaceDetails = await this.request.fetchRaceDetailsByName(createCharacter.race.toLowerCase());
         
@@ -24,7 +24,8 @@ export default class ValidateSubRace implements CharacterValidate {
         }
 
         if (!createCharacter.subrace) {
-            this.next?.validate(createCharacter, character);
+            await this.next?.validate(createCharacter);
+            return;
         }
 
         const subRaceNotIsValid = !race.subraces.map(race => race.name).includes(createCharacter.subrace);
@@ -32,7 +33,7 @@ export default class ValidateSubRace implements CharacterValidate {
             throw new HttpException(`Invalid subRace ${createCharacter.subrace}`, HttpStatus.BAD_REQUEST);
         }
 
-        this.next?.validate(createCharacter, character);
+        await this.next?.validate(createCharacter);
 
     }
 }

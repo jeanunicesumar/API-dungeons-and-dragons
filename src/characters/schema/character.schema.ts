@@ -45,6 +45,7 @@ export class Character {
 
   @Prop([String])
   equipment: string[];
+  
 }
 
 export const CharacterSchema = SchemaFactory.createForClass(Character);

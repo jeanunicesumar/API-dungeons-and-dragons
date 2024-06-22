@@ -2,20 +2,19 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 import CommonRequest from "../common-request/common-request";
 import { CreateCharacterDto } from "../dto/create-character.dto";
 import { ClassDetails } from "../interface/classDetails";
-import { Character } from "../schema/character.schema";
 import { CharacterValidate } from "./interfaces/character.validate";
 
 export default class ValidateSubClasse implements CharacterValidate {
 
     private readonly request: CommonRequest;
-
     private readonly next: CharacterValidate;
 
-    constructor(next: CharacterValidate) {
+    constructor(next: CharacterValidate, request: CommonRequest) {
         this.next = next;
+        this.request = request;
     }
 
-    public async validate(createCharacter: CreateCharacterDto, character: Character): Promise<void> {
+    public async validate(createCharacter: CreateCharacterDto): Promise<void> {
 
         const classe: ClassDetails = await this.request.fetchClassDetailsByName(createCharacter.class.toLowerCase());
         if (!classe) {
@@ -23,7 +22,8 @@ export default class ValidateSubClasse implements CharacterValidate {
         }
 
         if (!createCharacter.subClass) {
-            this.next?.validate(createCharacter, character);
+            await this.next?.validate(createCharacter);
+            return;
         }
 
         const subClassNotIsValid = !classe.subclasses.map(classe => classe.name).includes(createCharacter.subClass);
@@ -31,7 +31,7 @@ export default class ValidateSubClasse implements CharacterValidate {
             throw new HttpException(`Invalid subClass ${createCharacter.subClass}`, HttpStatus.BAD_REQUEST);
         }
 
-        this.next?.validate(createCharacter, character);
+        await this.next?.validate(createCharacter);
 
     }
 }

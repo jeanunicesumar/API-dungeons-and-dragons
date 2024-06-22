@@ -9,11 +9,8 @@ import { Password } from 'src/common/utils/password';
 import { Token } from 'src/common/utils/token/token';
 
 @Injectable()
-export class UserService extends CrudService<
-  User,
-  CreateUserDto,
-  UpdateUserDto
-> {
+export class UserService extends CrudService<User, CreateUserDto, UpdateUserDto> {
+
   constructor(
     protected readonly userRepository: UserRepository,
     protected readonly adapter: UserAdapter,
@@ -23,28 +20,31 @@ export class UserService extends CrudService<
   }
 
   public async create(newUser: CreateUserDto): Promise<void> {
-    const user: User | null = await this.validEmailOrUsername(newUser)
-    // if (!user) {
-    //   throw new HttpException('Not found', HttpStatus.NOT_FOUND)
-    // }
-    if (!user) {
-      const _user = this.adapter.createToEntity(newUser)
-      _user.password = await Password.generateEncrypted(_user.password)
-      await this.userRepository.create(_user)
+    const existsUser: User | null = await this.validEmailOrUsername(newUser);
+    
+    if (existsUser) {
+      throw new HttpException('Duplicate user', HttpStatus.BAD_REQUEST)
     }
+    
+    const user: User = this.adapter.createToEntity(newUser);
+    user.password = await Password.generateEncrypted(user.password);
+    await this.userRepository.create(user);
   }
 
   public async login(loginUser: CreateUserDto): Promise<string> {
-    const dataUser: User | null = await this.validEmailOrUsername(loginUser)
-    if (!dataUser) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+    const foundUser: User | null = await this.validEmailOrUsername(loginUser);
+
+    if (!foundUser) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-    const validateUser: boolean | null = await Password.verify(loginUser.password, dataUser.password)
-    console.log(validateUser)
-    if (!validateUser) {
-      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED)
+
+    const userIsValid: boolean | null = await Password.verify(loginUser.password, foundUser.password);
+
+    if (!userIsValid) {
+      throw new HttpException('Invalid user password', HttpStatus.UNAUTHORIZED);
     }
-    return this.token.generateToken(dataUser)
+
+    return this.token.generateToken(foundUser);
   }
 
   private async validEmailOrUsername(user: CreateUserDto): Promise<User | null> {
