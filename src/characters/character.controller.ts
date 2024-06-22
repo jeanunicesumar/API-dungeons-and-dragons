@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Param, Body } from '@nestjs/common';
 import { CharacterService } from './character.service';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { Character } from './schema/character.schema';
@@ -6,24 +6,20 @@ import { CreateCharacterDto } from './dto/create-character.dto';
 import { CrudController } from 'src/crud/crud.controller';
 
 @Controller('characters')
-export class CharacterController extends CrudController<
-  Character,
-  CreateCharacterDto,
-  UpdateCharacterDto
-> {
+export class CharacterController extends CrudController<Character, CreateCharacterDto, UpdateCharacterDto> {
+
   constructor(protected readonly service: CharacterService) {
     super(service);
   }
 
-  // @Post('random')
-  // // @UseGuards(JwtAuthGuard)
-  // async createRandomCharacter() {
-  //   return this.service.createRandomCharacter();
-  // }
+  @Post()
+  async create(@Body() body: CreateCharacterDto): Promise<void> {
+    await this.service.create(body);
+  }
 
   @Post(':id/background')
   // @UseGuards(JwtAuthGuard)
-  async generateBackground(id: string) {
+  async generateBackground(@Param('id') id: string) {
     return this.service.generateBackground(id);
   }
 
@@ -32,4 +28,5 @@ export class CharacterController extends CrudController<
   async generateAdventure() {
     return this.service.generateAdventure();
   }
+  
 }

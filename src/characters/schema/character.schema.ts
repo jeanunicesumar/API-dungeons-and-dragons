@@ -1,13 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { AbilityBonus } from '../interface/abilityBonus';
 
 export type CharacterDocument = HydratedDocument<Character>;
 
 @Schema({ timestamps: true })
 export class Character {
-  @Prop({ type: SchemaTypes.ObjectId })
-  id: Types.ObjectId;
 
   @Prop({ required: true })
   name: string;
@@ -30,23 +28,24 @@ export class Character {
   @Prop()
   ability: string;
 
-  @Prop()
+  @Prop([Object])
   ability_bonuses: AbilityBonus[];
-
-  @Prop()
-  feat: string;
 
   @Prop()
   spell: string;
 
+  @Prop([String])
+  features: string[];
+  
   @Prop()
   alignment: string;
 
   @Prop([String])
-  skill: string[];
+  proficiencies: string[];
 
   @Prop([String])
   equipment: string[];
+  
 }
 
 export const CharacterSchema = SchemaFactory.createForClass(Character);

@@ -9,7 +9,14 @@ export default class CharacterAdapter
   implements Adapter<Character, CreateCharacterDto, UpdateCharacterDto>
 {
   updateToEntity(dto: UpdateCharacterDto): Character {
-    return new Character();
+    return {
+      name: dto.name,
+      race: dto.race,
+      subrace: dto.subrace,
+      subclass: dto.subClass,
+      class: dto.class,
+      level: dto.level,
+    } as Character;
   }
 
   createToEntity(dto: CreateCharacterDto): Character {

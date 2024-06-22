@@ -6,6 +6,8 @@ import { Character, CharacterSchema } from './schema/character.schema';
 import { GeminiService } from 'src/gemini/gemini.service';
 import { CharacterRepository } from './character.repository';
 import CharacterAdapter from './character.adapter';
+import CommonRequest from './common-request/common-request';
+import CharacterValidate from './validate/character.validate';
 
 @Module({
   imports: [
@@ -14,12 +16,7 @@ import CharacterAdapter from './character.adapter';
     ]),
   ],
   controllers: [CharacterController],
-  providers: [
-    CharacterService,
-    CharacterRepository,
-    CharacterAdapter,
-    GeminiService,
-  ],
-  exports: [CharacterService, CharacterRepository],
+  providers: [CharacterService, CharacterRepository, CharacterAdapter, GeminiService, CommonRequest, CharacterValidate],
+  exports: [CharacterService, CharacterRepository]
 })
 export class CharacterModule {}
