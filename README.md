@@ -1,73 +1,86 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# 📖 Bem-vindo(a) à API de D&D! 
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este README fornece uma descrição detalhada das funcionalidades e requisitos para a criação e desenvolvimento da nossa aplicação mágica de Dungeons & Dragons! 🌟⚔️🧙‍♂️
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## ✨ Funcionalidades
 
-## Description
+1. **🧙 Criação de Entidade de Usuário com Autenticação JWT**
+2. **🔒 Auth Guard**:
+   - Adicione um Auth Guard para as rotas da entidade principal da sua aplicação.
+   - Somente usuários autenticados poderão chamar essas rotas.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+3. **⏱️ Log de Tempo de Resposta**:
+   - Crie uma entidade para registrar o tempo de resposta das rotas da sua API.
+   - Registre pelo menos o nome da rota chamada, o método utilizado e o tempo decorrido para a solicitação terminar.
 
-## Installation
+4. **❗ Exceções Personalizadas**
+5. **📏 Validação de Dados**
+6. **🐳 Docker Compose**
+7. **🎲 Função para Criar Personagem Aleatório**:
+   - Crie uma função para criar um personagem de forma aleatória, respeitando a regra de nível.
 
+8. **🧠 Integração com IA Generativa (Gemini)**:
+   - Integre sua aplicação com o Gemini para:
+     - Gerar uma história de background para um personagem baseado em sua ficha.
+     - Dado um grupo de personagens (3 ou mais), gerar uma aventura para eles.
+     
+## 🛠️ Dependências
+
+- Node.js
+- TypeScript
+- JWT
+- class-validator
+- Docker
+- Docker Compose
+
+## 🌐 Rotas da API
+
+#### Usuários
+- **POST** `/users` - Criação de novo usuário
+- **POST** `/users/login` - Autenticação de usuário
+- **GET** `/users` - Listagem de usuários
+- **GET** `/users/:id` - Detalhes de um usuário
+- **PATCH** `/users/:id` - Atualização de um usuário
+- **DELETE** `/users/:id` - Remoção de um usuário
+
+#### Personagens
+- **POST** `/characters` - Criação de novo personagem
+- **PATCH** `/characters/:id` - Atualização de um personagem
+- **POST** `/characters/:id/background` - Gerar história de background para um personagem
+- **POST** `/characters/adventure` - Gerar uma aventura para um grupo de personagens
+- **GET** `/characters` - Listagem de personagens
+- **GET** `/characters/:id` - Detalhes de um personagem
+- **DELETE** `/characters/:id` - Remoção de um personagem
+
+#### Logs
+- **GET** `/logs` - Listagem dos logs de tempo de resposta das rotas
+
+## 🏃‍♂️ Como Rodar a Aplicação
+
+- Clone o repositório.
 ```bash
-$ npm install
+git clone <https://github.com/jeanunicesumar/API-dungeons-and-dragons.git>
+cd <API-dungeons-and-dragons>
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+- Configure as variáveis de ambiente necessárias. 
 ```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+❗ Crie um arquivo .env na raiz do projeto com base no arquivo .env.example. ❗
 ```
+- Instale as Dependências
+```
+npm install
 
-## Support
+```
+- Execute `docker-compose up -d` para iniciar a aplicação e o banco de dados.
+- Utilize os endpoints da API conforme documentado.
+- Verifique os logs para informações de tempo de resposta das rotas.
+- Use a funcionalidade de criação de personagem e integração com Gemini para gerar histórias e aventuras.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🎐 Conheça os desenvolvedores
 
-## Stay in touch
+- 👩‍💻 [Cassia Yumi](https://github.com/cassiab13)
+- 👨‍💻 [Jean Soares](https://github.com/jeanunicesumar)
+- 👩‍💻 [Rhayssa Andretto](https://github.com/rhayssaandretto)
+- 👨‍💻 [Vinicius Kenji](https://github.com/TalDoKenji)
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+Junte-se à nossa aventura de desenvolvimento e ajude-nos a criar a melhor API de D&D! 🌟🛡️⚔️
