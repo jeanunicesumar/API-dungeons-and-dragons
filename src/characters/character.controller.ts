@@ -1,4 +1,4 @@
-import { Controller, Post, Param, Body, Patch } from '@nestjs/common';
+import { Controller, Post, Param, Body, Patch, UseGuards } from '@nestjs/common';
 import { CharacterService } from './character.service';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { Character } from './schema/character.schema';
@@ -6,6 +6,7 @@ import { CreateCharacterDto } from './dto/create-character.dto';
 import { CrudController } from 'src/crud/crud.controller';
 import { GeminiAPIError } from 'src/exceptions/gemini-error.exception';
 import { DDAPIError } from 'src/exceptions/dd-error.exception';
+import { JwtAuthGuard } from 'src/common/utils/guards/jwt.guard';
 
 @Controller('characters')
 export class CharacterController extends CrudController<
@@ -18,6 +19,7 @@ export class CharacterController extends CrudController<
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async create(@Body() body: CreateCharacterDto): Promise<void> {
     try {
       await this.service.create(body);
@@ -27,6 +29,7 @@ export class CharacterController extends CrudController<
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   async update(
     @Param('id') id: string,
     @Body() update: UpdateCharacterDto,
@@ -36,10 +39,11 @@ export class CharacterController extends CrudController<
     } catch (error) {
       throw new DDAPIError();
     }
+ 
   }
 
   @Post(':id/background')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async generateBackground(@Param('id') id: string) {
     try {
       return await this.service.generateBackground(id);
@@ -49,7 +53,7 @@ export class CharacterController extends CrudController<
   }
 
   @Post('adventure')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async generateAdventure() {
     try {
       return await this.service.generateAdventure();

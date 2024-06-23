@@ -9,6 +9,7 @@ import { Password } from 'src/common/utils/password';
 import { Token } from 'src/common/utils/token/token';
 import { InvalidCredentials } from 'src/exceptions/invalid-credentials.exception';
 import { DuplicatedUser } from 'src/exceptions/duplicated-user.exception';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService extends CrudService<
@@ -36,8 +37,8 @@ export class UserService extends CrudService<
     await this.userRepository.create(user);
   }
 
-  public async login(loginUser: CreateUserDto): Promise<string> {
-    const foundUser: User | null = await this.validEmailOrUsername(loginUser);
+  public async login(loginUser: LoginUserDto): Promise<string> {
+    const foundUser: User | null = await this.validEmailOrUsername(loginUser as CreateUserDto);
 
     if (!foundUser) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);

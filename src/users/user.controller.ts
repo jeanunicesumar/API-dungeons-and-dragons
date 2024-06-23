@@ -1,9 +1,10 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CrudController } from 'src/crud/crud.controller';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schema/user.schema';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Controller('users')
 export class UserController extends CrudController<
@@ -21,7 +22,7 @@ export class UserController extends CrudController<
   }
 
   @Post('login')
-  async login(@Body() createUserDto: CreateUserDto): Promise<Object> {
-    return { token: await this.userService.login(createUserDto) };
+  async login(@Body() createUserDto: LoginUserDto): Promise<Object> {
+    return { token: await this.userService.login(createUserDto) }
   }
 }
