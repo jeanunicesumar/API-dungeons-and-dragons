@@ -11,7 +11,6 @@ import {
 import { CrudService } from './crud.service';
 import ICrudController from './interfaces/crud.controller';
 import { JwtAuthGuard } from '../common/utils/guards/jwt.guard';
-
 @Controller()
 export class CrudController<T, CreateDTO, UpdateDTO>
   implements ICrudController<T, CreateDTO, UpdateDTO>
@@ -34,7 +33,7 @@ export class CrudController<T, CreateDTO, UpdateDTO>
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async findById(@Param('id') id: string): Promise<T> {
-    return this.service.findById(id);
+    return await this.service.findById(id);
   }
 
   @Patch(':id')
