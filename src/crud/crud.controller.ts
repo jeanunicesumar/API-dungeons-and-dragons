@@ -11,12 +11,13 @@ export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<
   ) { }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(@Body() body: CreateDTO): Promise<void> {
     return this.service.create(body);
   }
 
   @Get()
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async findAll(): Promise<T[]> {
     return this.service.findAll();
   }
