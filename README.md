@@ -59,8 +59,8 @@ Este README fornece uma descrição detalhada das funcionalidades e requisitos p
 
 - Clone o repositório.
 ```bash
-git clone <https://github.com/jeanunicesumar/API-dungeons-and-dragons.git>
-cd <API-dungeons-and-dragons>
+git clone https://github.com/jeanunicesumar/API-dungeons-and-dragons.git
+cd API-dungeons-and-dragons
 ```
 - Configure as variáveis de ambiente necessárias. 
 ```
