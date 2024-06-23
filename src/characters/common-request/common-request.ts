@@ -9,7 +9,7 @@ import { AbilityScore } from '../interface/abilityScore';
 @Injectable()
 export default class CommonRequest {
   private readonly URL: string = this.configService.get<string>(
-    'URL_DD',
+    'API_URL',
     'https://www.dnd5eapi.co',
   );
 

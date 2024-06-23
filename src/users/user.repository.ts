@@ -10,6 +10,14 @@ export class UserRepository extends CrudRepository<User> {
     super(userModel);
   }
 
+  public async findAll(): Promise<User[]> {
+    return this.userModel.find().select(['-password']);
+  }
+
+  public async findById(id: string): Promise<User> {
+    return this.userModel.findById(id).select(['-password']);
+  }
+
   public async findByEmailOrUsername(
     email: string,
     name: string,

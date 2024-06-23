@@ -4,6 +4,8 @@ import { UpdateCharacterDto } from './dto/update-character.dto';
 import { Character } from './schema/character.schema';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { CrudController } from 'src/crud/crud.controller';
+import { GeminiAPIError } from 'src/exceptions/gemini-error.exception';
+import { DDAPIError } from 'src/exceptions/dd-error.exception';
 
 @Controller('characters')
 export class CharacterController extends CrudController<
@@ -17,7 +19,11 @@ export class CharacterController extends CrudController<
 
   @Post()
   async create(@Body() body: CreateCharacterDto): Promise<void> {
-    await this.service.create(body);
+    try {
+      await this.service.create(body);
+    } catch (error) {
+      throw new DDAPIError();
+    }
   }
 
   @Patch(':id')
@@ -25,18 +31,30 @@ export class CharacterController extends CrudController<
     @Param('id') id: string,
     @Body() update: UpdateCharacterDto,
   ): Promise<void> {
-    await this.service.update(id, update);
+    try {
+      await this.service.update(id, update);
+    } catch (error) {
+      throw new DDAPIError();
+    }
   }
 
   @Post(':id/background')
   // @UseGuards(JwtAuthGuard)
   async generateBackground(@Param('id') id: string) {
-    return this.service.generateBackground(id);
+    try {
+      return await this.service.generateBackground(id);
+    } catch (error) {
+      throw new GeminiAPIError();
+    }
   }
 
   @Post('adventure')
   // @UseGuards(JwtAuthGuard)
   async generateAdventure() {
-    return this.service.generateAdventure();
+    try {
+      return await this.service.generateAdventure();
+    } catch (error) {
+      throw new GeminiAPIError();
+    }
   }
 }

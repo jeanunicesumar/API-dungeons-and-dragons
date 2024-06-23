@@ -15,7 +15,7 @@ export class CrudRepository<T> implements ICrudRepository<T> {
   }
 
   public async create(body: T): Promise<void> {
-    this.model.create(body);
+    await this.model.create(body);
   }
 
   public async update(id: string, body: T): Promise<void> {
