@@ -16,7 +16,14 @@ import CharacterValidate from './validate/character.validate';
     ]),
   ],
   controllers: [CharacterController],
-  providers: [CharacterService, CharacterRepository, CharacterAdapter, GeminiService, CommonRequest, CharacterValidate],
-  exports: [CharacterService, CharacterRepository]
+  providers: [
+    CharacterService,
+    CharacterRepository,
+    CharacterAdapter,
+    GeminiService,
+    CommonRequest,
+    CharacterValidate,
+  ],
+  exports: [CharacterService, CharacterRepository],
 })
 export class CharacterModule {}

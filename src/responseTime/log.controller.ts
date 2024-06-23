@@ -4,12 +4,10 @@ import { Controller, Get } from '@nestjs/common';
 
 @Controller('logs')
 export class LogController {
-
   constructor(private readonly logService: LogService) {}
 
   @Get()
   async getLog(): Promise<Log[]> {
     return this.logService.getLog();
   }
-  
 }

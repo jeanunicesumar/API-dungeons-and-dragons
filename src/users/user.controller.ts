@@ -6,8 +6,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schema/user.schema';
 
 @Controller('users')
-export class UserController extends CrudController<User, CreateUserDto, UpdateUserDto> {
-
+export class UserController extends CrudController<
+  User,
+  CreateUserDto,
+  UpdateUserDto
+> {
   constructor(protected readonly userService: UserService) {
     super(userService);
   }

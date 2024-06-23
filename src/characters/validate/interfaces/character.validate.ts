@@ -1,7 +1,5 @@
-import { CreateCharacterDto } from "../../dto/create-character.dto";
+import { CreateCharacterDto } from '../../dto/create-character.dto';
 
 export interface CharacterValidate {
-
-    validate(createCharacter: CreateCharacterDto): Promise<void>;
-
+  validate(createCharacter: CreateCharacterDto): Promise<void>;
 }

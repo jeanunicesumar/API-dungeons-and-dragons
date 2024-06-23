@@ -5,6 +5,6 @@ import CommonRequest from '../common-request/common-request';
 @Module({
   imports: [],
   providers: [CharacterValidate, CommonRequest],
-  exports: [CharacterValidate]
+  exports: [CharacterValidate],
 })
 export class CharacterValidateModule {}

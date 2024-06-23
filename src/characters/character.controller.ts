@@ -6,8 +6,11 @@ import { CreateCharacterDto } from './dto/create-character.dto';
 import { CrudController } from 'src/crud/crud.controller';
 
 @Controller('characters')
-export class CharacterController extends CrudController<Character, CreateCharacterDto, UpdateCharacterDto> {
-
+export class CharacterController extends CrudController<
+  Character,
+  CreateCharacterDto,
+  UpdateCharacterDto
+> {
   constructor(protected readonly service: CharacterService) {
     super(service);
   }
@@ -18,7 +21,10 @@ export class CharacterController extends CrudController<Character, CreateCharact
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() update: UpdateCharacterDto): Promise<void> {
+  async update(
+    @Param('id') id: string,
+    @Body() update: UpdateCharacterDto,
+  ): Promise<void> {
     await this.service.update(id, update);
   }
 
@@ -33,5 +39,4 @@ export class CharacterController extends CrudController<Character, CreateCharact
   async generateAdventure() {
     return this.service.generateAdventure();
   }
-  
 }

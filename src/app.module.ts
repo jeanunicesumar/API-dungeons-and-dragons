@@ -15,12 +15,12 @@ import { LogModule } from './responseTime/log.module';
     MongooseModule.forRoot('mongodb://0.0.0.0:27018/api-D&D'),
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forFeature([{ name: 'Log', schema: LogSchema }]),
-    LogModule
+    LogModule,
   ],
   controllers: [],
   providers: [GeminiService, LogService],
 })
-export class AppModule implements NestModule{
+export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LogService).forRoutes('*');
   }

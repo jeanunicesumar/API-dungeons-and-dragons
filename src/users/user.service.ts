@@ -7,10 +7,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import UserAdapter from './user.adapter';
 import { Password } from 'src/common/utils/password';
 import { Token } from 'src/common/utils/token/token';
+import { InvalidCredentials } from 'src/exceptions/invalid-credentials.exception';
+import { DuplicatedUser } from 'src/exceptions/duplicated-user.exception';
 
 @Injectable()
-export class UserService extends CrudService<User, CreateUserDto, UpdateUserDto> {
-
+export class UserService extends CrudService<
+  User,
+  CreateUserDto,
+  UpdateUserDto
+> {
   constructor(
     protected readonly userRepository: UserRepository,
     protected readonly adapter: UserAdapter,
@@ -21,11 +26,11 @@ export class UserService extends CrudService<User, CreateUserDto, UpdateUserDto>
 
   public async create(newUser: CreateUserDto): Promise<void> {
     const existsUser: User | null = await this.validEmailOrUsername(newUser);
-    
+
     if (existsUser) {
-      throw new HttpException('Duplicate user', HttpStatus.BAD_REQUEST)
+      throw new DuplicatedUser();
     }
-    
+
     const user: User = this.adapter.createToEntity(newUser);
     user.password = await Password.generateEncrypted(user.password);
     await this.userRepository.create(user);
@@ -38,10 +43,13 @@ export class UserService extends CrudService<User, CreateUserDto, UpdateUserDto>
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
 
-    const userIsValid: boolean | null = await Password.verify(loginUser.password, foundUser.password);
+    const userIsValid: boolean | null = await Password.verify(
+      loginUser.password,
+      foundUser.password,
+    );
 
     if (!userIsValid) {
-      throw new HttpException('Invalid user password', HttpStatus.UNAUTHORIZED);
+      throw new InvalidCredentials();
     }
 
     return this.token.generateToken(foundUser);

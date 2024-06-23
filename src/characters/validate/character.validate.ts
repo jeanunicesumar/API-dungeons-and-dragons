@@ -1,19 +1,18 @@
-import { Injectable } from "@nestjs/common";
-import ValidateSubClasse from "./validate.subclasse";
-import ValidateSubRace from "./validate.subrace";
-import { CreateCharacterDto } from "../dto/create-character.dto";
-import CommonRequest from "../common-request/common-request";
+import { Injectable } from '@nestjs/common';
+import ValidateSubClasse from './validate.subclasse';
+import ValidateSubRace from './validate.subrace';
+import { CreateCharacterDto } from '../dto/create-character.dto';
+import CommonRequest from '../common-request/common-request';
 
 @Injectable()
 export default class CharacterValidate {
-  private readonly createCharacter: CreateCharacterDto;
+  constructor(private readonly commonRequest: CommonRequest) {}
 
-    constructor(private readonly commonRequest: CommonRequest) {}
-
-    public async validate(createCharacter: CreateCharacterDto): Promise<void> {
-
-        const validate = new ValidateSubClasse(new ValidateSubRace(null, this.commonRequest), this.commonRequest);
-        await validate.validate(createCharacter);
-    }
-    
+  public async validate(createCharacter: CreateCharacterDto): Promise<void> {
+    const validate = new ValidateSubClasse(
+      new ValidateSubRace(null, this.commonRequest),
+      this.commonRequest,
+    );
+    await validate.validate(createCharacter);
+  }
 }

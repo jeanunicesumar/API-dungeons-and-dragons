@@ -5,8 +5,9 @@ import { Character } from './schema/character.schema';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export default class CharacterAdapter implements Adapter<Character, CreateCharacterDto, UpdateCharacterDto> {
-
+export default class CharacterAdapter
+  implements Adapter<Character, CreateCharacterDto, UpdateCharacterDto>
+{
   updateToEntity(dto: UpdateCharacterDto): Character {
     return {
       name: dto.name,
@@ -29,14 +30,17 @@ export default class CharacterAdapter implements Adapter<Character, CreateCharac
     } as Character;
   }
 
-  updateToEntityConvert(dto: UpdateCharacterDto, character: Character): Character {
+  updateToEntityConvert(
+    dto: UpdateCharacterDto,
+    character: Character,
+  ): Character {
     return {
       name: dto?.name ? dto.name : character.name,
       race: dto?.race ? dto.race : character.race,
       subrace: dto?.subrace ? dto.subrace : null,
       subclass: dto?.subclass ? dto.subclass : null,
       class: dto?.class ? dto.class : character.class,
-      level: dto?.level ? dto.level : character.level
+      level: dto?.level ? dto.level : character.level,
     } as Character;
   }
 
@@ -47,8 +51,7 @@ export default class CharacterAdapter implements Adapter<Character, CreateCharac
       subrace: character.subrace,
       subclass: character.subclass,
       class: character.class,
-      level: character.level 
+      level: character.level,
     } as unknown as CreateCharacterDto;
-  } 
-
+  }
 }
