@@ -6,7 +6,6 @@ export type CharacterDocument = HydratedDocument<Character>;
 
 @Schema({ timestamps: true })
 export class Character {
-
   @Prop({ required: true })
   name: string;
 
@@ -30,13 +29,13 @@ export class Character {
 
   @Prop([Object])
   ability_bonuses: AbilityBonus[];
-  
+
   @Prop()
   spell: string;
 
   @Prop([String])
   features: string[];
-  
+
   @Prop()
   alignment: string;
 
@@ -45,7 +44,6 @@ export class Character {
 
   @Prop([String])
   equipment: string[];
-  
 }
 
 export const CharacterSchema = SchemaFactory.createForClass(Character);

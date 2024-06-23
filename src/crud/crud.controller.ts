@@ -1,14 +1,23 @@
-import { Get, Post, Body, Patch, Param, Delete, Controller, UseGuards } from '@nestjs/common';
+import {
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Controller,
+  UseGuards,
+} from '@nestjs/common';
 import { CrudService } from './crud.service';
 import ICrudController from './interfaces/crud.controller';
 import { JwtAuthGuard } from '../common/utils/guards/jwt.guard';
-
 @Controller()
-export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<T, CreateDTO, UpdateDTO> {
-
+export class CrudController<T, CreateDTO, UpdateDTO>
+  implements ICrudController<T, CreateDTO, UpdateDTO>
+{
   constructor(
     protected readonly service: CrudService<T, CreateDTO, UpdateDTO>,
-  ) { }
+  ) {}
 
   @Post()
   @UseGuards(JwtAuthGuard)
@@ -25,12 +34,15 @@ export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async findById(@Param('id') id: string): Promise<T> {
-    return this.service.findById(id);
+    return await this.service.findById(id);
   }
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  async update(@Param('id') id: string, @Body() update: UpdateDTO): Promise<void> {
+  async update(
+    @Param('id') id: string,
+    @Body() update: UpdateDTO,
+  ): Promise<void> {
     this.service.update(id, update);
   }
 
@@ -39,5 +51,4 @@ export class CrudController<T, CreateDTO, UpdateDTO> implements ICrudController<
   async delete(@Param('id') id: string): Promise<void> {
     this.service.delete(id);
   }
-  
 }

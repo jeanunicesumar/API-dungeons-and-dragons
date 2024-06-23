@@ -11,7 +11,7 @@ export class LogService implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     const start = Date.now();
     res.on('finish', async () => {
-      const duration = (Date.now() - start) /1000;
+      const duration = (Date.now() - start) / 1000;
       const log = new this.logModel({
         route: req.originalUrl,
         method: req.method,
@@ -22,7 +22,7 @@ export class LogService implements NestMiddleware {
     next();
   }
 
-  async getLog(): Promise<Log[]>{
+  async getLog(): Promise<Log[]> {
     return await this.logModel.find();
   }
 }

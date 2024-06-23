@@ -5,11 +5,9 @@ import { LogController } from './log.controller';
 import { Log, LogSchema } from './schema/log.schema';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Log.name, schema: LogSchema }])
-  ],
+  imports: [MongooseModule.forFeature([{ name: Log.name, schema: LogSchema }])],
   controllers: [LogController],
   providers: [LogService],
-  exports: [LogService]
+  exports: [LogService],
 })
 export class LogModule {}

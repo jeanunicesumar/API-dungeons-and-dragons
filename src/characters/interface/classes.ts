@@ -1,5 +1,5 @@
-export interface Classes{
-    index: string,
-    name: string,
-    url: string
+export interface Classes {
+  index: string;
+  name: string;
+  url: string;
 }

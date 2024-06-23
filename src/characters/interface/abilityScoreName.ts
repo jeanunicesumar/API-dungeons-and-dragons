@@ -1,4 +1,4 @@
 export interface AbilityScoreName {
-    ability_score: string;
-    bonus: number;
+  ability_score: string;
+  bonus: number;
 }

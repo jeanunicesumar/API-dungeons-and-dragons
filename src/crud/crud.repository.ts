@@ -4,8 +4,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CrudRepository<T> implements ICrudRepository<T> {
-
-  constructor(private readonly model: Model<T>) { }
+  constructor(private readonly model: Model<T>) {}
 
   public async findAll(): Promise<T[]> {
     return this.model.find();
@@ -16,7 +15,7 @@ export class CrudRepository<T> implements ICrudRepository<T> {
   }
 
   public async create(body: T): Promise<void> {
-    this.model.create(body);
+    await this.model.create(body);
   }
 
   public async update(id: string, body: T): Promise<void> {
@@ -26,6 +25,4 @@ export class CrudRepository<T> implements ICrudRepository<T> {
   public async delete(id: string): Promise<void> {
     await this.model.findByIdAndDelete(id);
   }
-
 }
-

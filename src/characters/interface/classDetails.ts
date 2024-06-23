@@ -1,19 +1,19 @@
-import { SubClass } from "./subclass";
+import { SubClass } from './subclass';
 
 export interface ClassDetails {
+  index: string;
+  name: string;
+  hit_die: number;
+  proficiencies: {
     index: string;
     name: string;
-    hit_die: number;
-    proficiencies: {
-        index: string,
-        name: string,
-        url: string
-    }[];
-    starting_equipment: {
-        equipment: {
-            index: string,
-            name: string
-        }
-    }[];
-    subclasses: [SubClass],
+    url: string;
+  }[];
+  starting_equipment: {
+    equipment: {
+      index: string;
+      name: string;
+    };
+  }[];
+  subclasses: [SubClass];
 }
