@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CrudController } from 'src/crud/crud.controller';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './schema/user.schema';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Controller('users')
 export class UserController extends CrudController<User, CreateUserDto, UpdateUserDto> {
@@ -18,7 +19,7 @@ export class UserController extends CrudController<User, CreateUserDto, UpdateUs
   }
 
   @Post('login')
-  async login(@Body() createUserDto: CreateUserDto): Promise<Object> {
+  async login(@Body() createUserDto: LoginUserDto): Promise<Object> {
     return { token: await this.userService.login(createUserDto) }
   }
 

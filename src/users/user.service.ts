@@ -7,6 +7,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import UserAdapter from './user.adapter';
 import { Password } from 'src/common/utils/password';
 import { Token } from 'src/common/utils/token/token';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService extends CrudService<User, CreateUserDto, UpdateUserDto> {
@@ -31,8 +32,8 @@ export class UserService extends CrudService<User, CreateUserDto, UpdateUserDto>
     await this.userRepository.create(user);
   }
 
-  public async login(loginUser: CreateUserDto): Promise<string> {
-    const foundUser: User | null = await this.validEmailOrUsername(loginUser);
+  public async login(loginUser: LoginUserDto): Promise<string> {
+    const foundUser: User | null = await this.validEmailOrUsername(loginUser as CreateUserDto);
 
     if (!foundUser) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
